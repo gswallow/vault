@@ -17,6 +17,12 @@ and subscribers (Vault components and external users via the API).
 
 <!-- This information will probably be migrated to the plugin pages eventually -->
 
+<Note title="Note">
+
+Event types without the `data_path` metadata field require a root token to be consumed from the `/v1/sys/events/subscribe/{eventType}` API endpoint.
+
+</Note>
+
 Internal components of Vault as well as external plugins can generate event notifications.
 These are published to "event types", sometimes called "topics" in other event systems.
 All event notifications of a specific event type will have the same format for their
@@ -130,6 +136,13 @@ Here is an example event notification in JSON format:
 ```
 
 ## Subscribing to event notifications
+
+<Note title="Events can only be subscribed from the active node">
+
+For multi-node vault deployments, currently events can only be subscribed from the active node. If events are subscribed from a standby
+node the websocket connection will be redirected to the active node using the `api_addr` from the active node's Vault configuration.
+
+</Note>
 
 Vault has an API endpoint, `/v1/sys/events/subscribe/{eventType}`, that allows users to subscribe to event notifications via a
 WebSocket stream.
